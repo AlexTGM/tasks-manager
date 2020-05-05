@@ -21,13 +21,13 @@ export default {
       projects.find(project => project.id === id),
   },
   Mutation: {
-    createProject: (_: any, { title, description } : {
+    createProject: (_: any, { request } : { request: {
       title: string, description: string
-    }): Project[] => {
+    }}): Project[] => {
       const newProject: Project = { 
         id: uuidv4(), 
-        title: title,
-        description: description, 
+        title: request.title,
+        description: request.description, 
         tasksIds: [ '1', '2' ]
       };
 
