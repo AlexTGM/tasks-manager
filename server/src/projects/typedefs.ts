@@ -5,6 +5,7 @@ type Project {
   id: ID!
   title: String
   description: String
+  tasksIds: [ID]
 }
 
 type Query {

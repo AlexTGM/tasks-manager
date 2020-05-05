@@ -7,7 +7,7 @@ type Task {
   description: String
 }
 
-extend type Query {
+type Query {
   listTasks: [Task]
   findTaskById(id: ID!): Task
   findTasksByIds(ids: [ID]): [Task]

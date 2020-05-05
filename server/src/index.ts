@@ -1,6 +1,6 @@
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema, mergeSchemas, delegateToSchema } from 'graphql-tools';
 
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, gql } from 'apollo-server';
 
 import { 
   typeDefs as ProjectsTypeDefs, 
@@ -12,9 +12,47 @@ import {
   resolvers as TasksResolvers
 } from './tasks';
 
-const schema = makeExecutableSchema({
-  typeDefs: [ ProjectsTypeDefs, TasksTypeDefs ], 
-  resolvers: [ ProjectsResolvers, TasksResolvers ]
+const linkTypeDefs = gql`
+  extend type Project {
+    tasks: [Task]
+  }
+`;
+
+const projectsSchema = makeExecutableSchema({
+  typeDefs: ProjectsTypeDefs,
+  resolvers: ProjectsResolvers
+})
+
+const tasksSchema = makeExecutableSchema({
+  typeDefs: TasksTypeDefs,
+  resolvers: TasksResolvers
+})
+
+const schema = mergeSchemas({
+  subschemas: [
+    { schema: projectsSchema },
+    { schema: tasksSchema }
+  ],
+  typeDefs: linkTypeDefs,
+  resolvers: {
+    Project: {
+      tasks: {
+        fragment: `... on Project { tasksIds }`,
+        resolve(parent, args, context, info) {
+          return delegateToSchema({
+            schema: tasksSchema,
+            operation: 'query',
+            fieldName: 'findTasksByIds',
+            args: {
+              ids: parent.tasksIds
+            },
+            context,
+            info
+          })
+        }
+      }
+    }
+  }
 });
 
 const server = new ApolloServer({ schema });
