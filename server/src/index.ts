@@ -7,9 +7,14 @@ import {
   resolvers as ProjectsResolvers
 } from './projects';
 
+import { 
+  typeDefs as TasksTypeDefs, 
+  resolvers as TasksResolvers
+} from './tasks';
+
 const schema = makeExecutableSchema({
-  typeDefs: [ ProjectsTypeDefs ], 
-  resolvers: [ ProjectsResolvers ]
+  typeDefs: [ ProjectsTypeDefs, TasksTypeDefs ], 
+  resolvers: [ ProjectsResolvers, TasksResolvers ]
 });
 
 const server = new ApolloServer({ schema });
