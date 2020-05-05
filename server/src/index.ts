@@ -1,14 +1,10 @@
 import {
   mergeSchemas,
   delegateToSchema,
-  makeRemoteExecutableSchema,
-  introspectSchema,
 } from 'graphql-tools';
 
-import { HttpLink } from 'apollo-link-http';
-import fetch from 'cross-fetch';
-
 import { ApolloServer, gql } from 'apollo-server';
+import { createConnectionAsync } from './connection';
 
 const linkTypeDefs = gql`
   extend type Project {
@@ -16,19 +12,9 @@ const linkTypeDefs = gql`
   }
 `;
 
-const projectsLink = new HttpLink({ uri: 'http://localhost:5001/graphql', fetch });
-const tasksLink = new HttpLink({ uri: 'http://localhost:5002/graphql', fetch });
-
 (async () => {
-  const projectsSchema = makeRemoteExecutableSchema({
-    schema: await introspectSchema(projectsLink),
-    link: projectsLink
-  })
-
-  const tasksSchema = makeRemoteExecutableSchema({
-    schema: await introspectSchema(tasksLink),
-    link: tasksLink
-  })
+  const projectsSchema = await createConnectionAsync('localhost:5001');
+  const tasksSchema = await createConnectionAsync('localhost:5002');
 
   const schema = mergeSchemas({
     subschemas: [
