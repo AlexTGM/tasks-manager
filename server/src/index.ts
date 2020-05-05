@@ -1,25 +1,18 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 
-const typeDefs = gql`
-type Query {
-  hello(name: String!): String
-}
-`;
-
-const resolvers = {
-  Query: {
-    hello: (_, { name }: { name: string}): string => 
-      `Hello, ${name}`, 
-  }
-};
+import { 
+  typeDefs as ProjectsTypeDefs, 
+  resolvers as ProjectsResolvers
+} from './projects';
 
 const schema = makeExecutableSchema({
-  typeDefs, resolvers
+  typeDefs: [ ProjectsTypeDefs ], 
+  resolvers: [ ProjectsResolvers ]
 });
 
-const server = new ApolloServer({schema});
+const server = new ApolloServer({ schema });
 
 server.listen({ port: 5000 }).then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`)
