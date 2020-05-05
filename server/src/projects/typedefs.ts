@@ -22,4 +22,8 @@ input CreateProject {
   title: String
   description: String
 }
+
+type Subscription {
+  projectCreated: Project
+}
 `

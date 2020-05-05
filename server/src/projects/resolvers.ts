@@ -1,3 +1,5 @@
+import { PubSub } from 'apollo-server';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import { Project } from './models';
@@ -7,6 +9,8 @@ const projects: Project[] = ([
   { id: uuidv4(), title: 'second project', description: 'description', tasksIds: [ '2' ]},
   { id: uuidv4(), title: 'third project', description: 'description', tasksIds: [ '3', '5' ]},
 ])
+
+const pubsub = new PubSub();
 
 export const resolvers = {
   Query: {
@@ -28,8 +32,14 @@ export const resolvers = {
       };
 
       projects.push(newProject);
+      pubsub.publish('PROJECT_CREATED', { projectCreated: newProject });
 
       return projects;
+    },
+  },
+  Subscription: {
+    projectCreated: {
+      subscribe: () => pubsub.asyncIterator(['PROJECT_CREATED']),
     },
   },
 }
