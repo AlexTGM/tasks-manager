@@ -1,32 +1,41 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+<div id="app">
+  <nav class="navbar is-light has-shadow is-spaced" role="navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item">
+        <h1 class="title">Tasks Manager</h1>
+      </a>
+
+      <a role="button" @click="toggleNavbar"
+        :class="[ 'navbar-burger burger', { 'is-active': menuToggled } ]" >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <router-view/>
-  </div>
+
+    <div id="menu" :class="[ 'navbar-menu', { 'is-active': menuToggled } ]">
+      <div class="navbar-start">
+        <router-link class="navbar-item" to="/">Home</router-link>
+      </div>
+    </div>
+  </nav>
+  <section class="section">
+    <router-view />
+  </section>
+</div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
 
-#nav {
-  padding: 30px;
+@Component({})
+export default class Application extends Vue {
+  menuToggled = false;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  toggleNavbar(): void {
+    this.menuToggled = !this.menuToggled;
   }
 }
-</style>
+</script>
