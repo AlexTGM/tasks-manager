@@ -11,11 +11,11 @@ import { WebSocketLink } from "apollo-link-ws";
 import { setContext } from "apollo-link-context";
 import { getMainDefinition } from 'apollo-utilities';
 
-const WebSocket = require('ws');
+import WebSocket from 'ws';
 
 import fetch from 'cross-fetch';
 
-export async function createConnectionAsync(host): Promise<GraphQLSchema> {
+export async function createConnectionAsync(host: string): Promise<GraphQLSchema> {
   const wsLink = new ApolloLink(operation => {
     const context = operation.getContext().graphqlContext
     

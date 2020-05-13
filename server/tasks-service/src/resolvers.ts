@@ -13,10 +13,10 @@ export default {
   Query: {
     listTasks: (): Task[] => tasks,
 
-    findTaskById: (_, { id }: { id: string }): Task =>
+    findTaskById: (_: any, { id }: { id: string }): Task | undefined =>
       tasks.find(task => task.id === id),
 
-    findTasksByIds: (_, { ids }: { ids: string[] }): Task[] =>
+    findTasksByIds: (_: any, { ids }: { ids: string[] }): Task[] =>
       tasks.filter(task => ids.includes(task.id)),
   }
 }

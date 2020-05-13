@@ -10,6 +10,6 @@ const server = new ApolloServer({
   })
 });
 
-server.listen({ port: 5001 }).then(({ url }) => {
-  console.log(`Projects server ready at ${url}`)
-})
+server.listen(5002, '0.0.0.0').then(({ url }: { url: string }) => {
+  console.log(`Tasks server ready at ${url}`)
+});

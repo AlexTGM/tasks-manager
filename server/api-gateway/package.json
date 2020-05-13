@@ -4,11 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-gateway": "nodemon -r \"ts-node\" src\\index.ts",
-    "start-service-projects": "nodemon -r \"ts-node\" src\\projects\\index.ts",
-    "start-service-tasks": "nodemon -r \"ts-node\" src\\tasks\\index.ts",
-    "start-services": "concurrently \"npm:start-service-*\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -r \"ts-node\" src\\index.ts",
+    "tsc": "tsc -p tsconfig.json"
   },
   "keywords": [
     "nodejs",
@@ -16,7 +13,7 @@
   ],
   "author": "Alexander Mineev",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
@@ -25,9 +22,11 @@
     "cross-fetch": "^3.0.4",
     "graphql": "^15.0.0",
     "graphql-tools": "^5.0.0",
-    "nodemon": "^2.0.3",
-    "ts-node": "^8.10.1",
     "typescript": "^3.8.3",
     "uuidv4": "^6.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.10.1"
   }
 }

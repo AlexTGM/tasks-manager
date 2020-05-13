@@ -7,9 +7,10 @@ import resolvers from './resolvers';
 const server = new ApolloServer({
   schema: makeExecutableSchema({
     typeDefs, resolvers
-  })
+  }),
+
 });
 
-server.listen({ port: 5002 }).then(({ url }) => {
-  console.log(`🚀 Tasks server ready at ${url}`)
-})
+server.listen(5001, '0.0.0.0').then(({ url }: { url: string }) => {
+  console.log(`Projects server ready at ${url}`)
+});

@@ -17,8 +17,8 @@ export default {
     listProjects: (): Project[] => 
       projects,
 
-    findProjectById: (_, { id }: { id: string }): Project => 
-      projects.find(project => project.id === id),
+    findProjectById: (_: any, { id }: { id: string }): Project | undefined => 
+      projects.find((project: Project) => project.id === id),
   },
   Mutation: {
     createProject: (_: any, { request } : { request: {

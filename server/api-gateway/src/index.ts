@@ -13,8 +13,8 @@ const linkTypeDefs = gql`
 `;
 
 (async () => {
-  const projectsSchema = await createConnectionAsync('localhost:5001');
-  const tasksSchema = await createConnectionAsync('localhost:5002');
+  const projectsSchema = await createConnectionAsync('0.0.0.0:5001');
+  const tasksSchema = await createConnectionAsync('0.0.0.0:5002');
 
   const schema = mergeSchemas({
     subschemas: [
@@ -45,7 +45,7 @@ const linkTypeDefs = gql`
 
   const server = new ApolloServer({ schema });
 
-  server.listen({ port: 5000 }).then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`)
+  server.listen(5000).then(({ url }: { url: string }) => {
+    console.log(`Server ready at ${url}`)
   });
 })();
